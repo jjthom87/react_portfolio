@@ -54,7 +54,7 @@ router.post('/api/email', function(req, res){
 		}
 	});
 	var mailOptions = {
-	    from: '"Bob Saget" <nycda-teach@teachthis.com>',
+	    from: '"Jared Thomas" <nycda-teach@teachthis.com>',
 	    subject: 'Contact Form',
 	    to: process.env.EMAIL,
 	    message: 'Name: ' + req.body.name + '\n' + 'Email: ' + req.body.email + '\n' + 'Message: ' + req.body.message,
