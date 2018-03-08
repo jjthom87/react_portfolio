@@ -28,7 +28,7 @@ export const AboutMeStyles = {
 		width: 'auto'
 	},
 	image_div: {
-		paddingBottom: '50px'
+		paddingBottom: '40px'
 	},
 	ul_header_text: {
 		color: 'white',
@@ -57,5 +57,9 @@ export const AboutMeStyles = {
 	github_text: {
 		color: 'Aquamarine',
 		fontSize: '20px'
+	},
+	linked_in: {
+		position: 'absolute',
+		marginTop: '10px'
 	}
 }

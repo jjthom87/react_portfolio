@@ -13,7 +13,15 @@ export default class AboutMe extends Component {
 	          <img style={AboutMeStyles.aboutme_image} src="./images/about_me.png"/>
 	        </div>
 	        <div style={AboutMeStyles.image_div} className="text-center center-block">
-	          <img style={AboutMeStyles.jared_image} src="./images/jared_pic.png"/>
+	        	<img style={AboutMeStyles.jared_image} src="./images/jared_pic.png"/>
+	        	<br></br>
+	 			<a 
+	 				target="_blank" 
+	 				href="https://www.linkedin.com/in/jared-thomas-83a702158/"
+	 				style={AboutMeStyles.linked_in}
+	 			>
+	 				<i style={{fontSize: '24px'}} class="fab fa-linkedin-in"></i>
+	        	</a>
 	        </div>
 	        <div className="row">
 	        	<div className="col-md-1"></div>
@@ -61,7 +69,7 @@ export default class AboutMe extends Component {
 		        		</li>
 		        		<br></br>
 		        		<li style={AboutMeStyles.li_text}>
-		        			<p style={AboutMeStyles.skills_text}>Linux</p>
+		        			<p style={AboutMeStyles.skills_text}>React.js/Angular.js</p>
 		        		</li>
 		        	</ul>
 		        </div>
