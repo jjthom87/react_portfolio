@@ -1,6 +1,7 @@
 var express = require('express');
 var path = require('path');
 var pg = require('pg');
+var nodemailer = require("nodemailer");
 
 var router = express.Router();
 
