@@ -8,7 +8,6 @@ export default class BlogPage extends Component {
         super(props);
         this.state = {
         	messages: [],
-        	submitButtonDisabled: false,
           nameValid: false,
           messageValid: false
         };
@@ -16,9 +15,6 @@ export default class BlogPage extends Component {
     blogForm(e){
     	e.preventDefault();
 
-      this.setState({
-          submitButtonDisabled: true
-      });
     	var newMessage = {
     		name: this.refs.nameInput.value,
     		message: this.refs.messageInput.value
@@ -33,11 +29,14 @@ export default class BlogPage extends Component {
       }).then((response) => response.json())
       .then((results) => {
           this.setState({
-              messages: results,
-              submitButtonDisabled: false
+              messages: results
           });
           this.refs.nameInput.value = "";
-  		this.refs.messageInput.value = "";
+  		    this.refs.messageInput.value = "";
+          this.setState({
+            nameValid: false,
+            messageValid: false
+          })
       });
     }
     onNameChange(){
@@ -111,8 +110,8 @@ export default class BlogPage extends Component {
 			        		<textarea style={{height: '100px', color: 'Aquamarine'}} ref="messageInput" onChange={this.onMessageChange.bind(this)}></textarea><br></br><br></br>
                   {
                       this.state.nameValid && this.state.messageValid ?
-                          <input className="btn btn-info" type="submit" disabled={this.state.submitButtonDisabled}/> :
-                          <input className="btn btn-info" type="submit" disabled={true}/>
+                        <input className="btn btn-info" type="submit"/> :
+                        <input className="btn btn-info" type="submit" disabled={true}/>
                   }
 			        	</form>
 			        </div>
