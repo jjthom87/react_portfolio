@@ -13,7 +13,7 @@ var localConn = {
 	port: 5432
 };
 
-let dbUrl = process.env.DATABASE_URL ? process.env.DATABASE_URL : localConn;
+let dbUrl = process.env.DATABASE_URL || localConn;
 var pgClient = new pg.Client(dbUrl);
 pgClient.connect();
 
