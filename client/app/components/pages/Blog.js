@@ -8,35 +8,61 @@ export default class BlogPage extends Component {
         super(props);
         this.state = {
         	messages: [],
-        	submitButtonDisabled: false
+        	submitButtonDisabled: false,
+          nameValid: false,
+          messageValid: false
         };
     }
     blogForm(e){
     	e.preventDefault();
 
-        this.setState({
-            submitButtonDisabled: true
-        });
+      this.setState({
+          submitButtonDisabled: true
+      });
     	var newMessage = {
     		name: this.refs.nameInput.value,
     		message: this.refs.messageInput.value
     	}
-        fetch('/api/message', {
-            method: 'post',
-            body: JSON.stringify(newMessage),
-            headers: {
-                'content-type': 'application/json',
-                'accept': 'application/json'
-            },
-        }).then((response) => response.json())
-        .then((results) => {
+      fetch('/api/message', {
+          method: 'post',
+          body: JSON.stringify(newMessage),
+          headers: {
+              'content-type': 'application/json',
+              'accept': 'application/json'
+          },
+      }).then((response) => response.json())
+      .then((results) => {
+          this.setState({
+              messages: results,
+              submitButtonDisabled: false
+          });
+          this.refs.nameInput.value = "";
+  		this.refs.messageInput.value = "";
+      });
+    }
+    onNameChange(){
+        const nameInput = this.refs.nameInput.value;
+        if(nameInput !== ""){
             this.setState({
-                messages: results,
-                submitButtonDisabled: false
-            });
-            this.refs.nameInput.value = "";
-    		this.refs.messageInput.value = "";
-        });
+                nameValid: true,
+            })
+        } else {
+            this.setState({
+                nameValid: false,
+            })
+        }
+    }
+    onMessageChange(){
+        const messageInput = this.refs.messageInput.value;
+        if(messageInput !== ""){
+            this.setState({
+                messageValid: true,
+            })
+        } else {
+            this.setState({
+                messageValid: false,
+            })
+        }
     }
     componentWillMount(){
 		fetch('/api/messages', {
@@ -80,10 +106,14 @@ export default class BlogPage extends Component {
 		        	<div className="col-md-4 col-md-offset-4">
 			        	<form onSubmit={this.blogForm.bind(this)}>
 			        		<label>Name</label><br></br>
-			        		<input style={{color: 'Aquamarine'}} type="text" ref="nameInput"/><br></br>
+			        		<input style={{color: 'Aquamarine'}} type="text" ref="nameInput" onChange={this.onNameChange.bind(this)}/><br></br>
 			        		<label>Message</label><br></br>
-			        		<textarea style={{height: '100px', color: 'Aquamarine'}} ref="messageInput"></textarea><br></br><br></br>
-			        		<input disabled={this.state.submitButtonDisabled} className="btn btn-info" type="submit"/>
+			        		<textarea style={{height: '100px', color: 'Aquamarine'}} ref="messageInput" onChange={this.onMessageChange.bind(this)}></textarea><br></br><br></br>
+                  {
+                      this.state.nameValid && this.state.messageValid ?
+                          <input className="btn btn-info" type="submit" disabled={this.state.submitButtonDisabled}/> :
+                          <input className="btn btn-info" type="submit" disabled={true}/>
+                  }
 			        	</form>
 			        </div>
 		        </div>
