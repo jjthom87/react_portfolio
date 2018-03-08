@@ -15,3 +15,9 @@ body {
 .nav-widths {
 	margin: 10px;
 }
+
+.site-image {
+	position: absolute;
+	right: 0px;
+	top: 5px;
+}
