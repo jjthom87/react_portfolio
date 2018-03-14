@@ -12,10 +12,14 @@ export default class Email extends Component {
             emailError: false,
             nameError: false,
             messageError: false,
-            emailSuccess: null
+            emailSuccess: null,
+            submitButtonDisabled: false
         };
     }
     submitMessage(e){
+        this.setState({
+            submitButtonDisabled: true
+        });
         e.preventDefault();
         const inputs = {
             name: this.refs.nameInput.value,
@@ -33,11 +37,13 @@ export default class Email extends Component {
         .then((results) => {
         	if(results.success){
                 this.setState({
-                    emailSuccess: true
+                    emailSuccess: true,
+
                 })
             } else {
                 this.setState({
-                    emailSuccess: false
+                    emailSuccess: false,
+                    submitButtonDisabled: false
                 })
             }
             setTimeout(() => {
@@ -112,7 +118,7 @@ export default class Email extends Component {
                             {this.state.messageError ? <div><span style={{position: 'absolute', marginTop: '-20px', color: 'red'}}>Message must be more than 5 characters</span></div> : <div></div>}
                             {
                                 this.state.emailValid && this.state.nameValid && this.state.messageValid ?
-                                    <input className="btn btn-info" type="submit"/> :
+                                    <input className="btn btn-info" type="submit" disabled={this.state.submitButtonDisabled}/> :
                                     <input className="btn btn-info" type="submit" disabled={true}/>
                             }
                         </form>
