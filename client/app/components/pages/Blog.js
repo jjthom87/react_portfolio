@@ -9,7 +9,8 @@ export default class BlogPage extends Component {
         this.state = {
         	messages: [],
           nameValid: false,
-          messageValid: false
+          messageValid: false,
+          updatedMessages: []
         };
     }
     blogForm(e){
@@ -63,21 +64,31 @@ export default class BlogPage extends Component {
             })
         }
     }
+    componentDidMount(){
+      let stuff;
+      let that = this;
+      var socket = io.connect('http://localhost:3000');
+      socket.on('messages', function (data) {
+          that.setState({
+            messages: data
+          })
+      });
+    }
     componentWillMount(){
-		fetch('/api/messages', {
-			headers: {
-                'content-type': 'application/json',
-                'accept': 'application/json'
-            }
-		}).then((response) => response.json())
-        .then((results) => {
-        	this.setState({
-        		messages: results
-        	});
-        });
+  		// fetch('/api/messages', {
+  		// 	headers: {
+    //               'content-type': 'application/json',
+    //               'accept': 'application/json'
+    //           }
+  		// }).then((response) => response.json())
+    //       .then((results) => {
+    //       	this.setState({
+    //       		messages: results
+    //       	});
+    //       });
     }
   	render() {
-  		const {messages} = this.state;
+  		const {messages, updatedMessages} = this.state;
   		const appendMessages = () => {
   			if(messages.length > 0){
 				return messages.map((message, index) => {

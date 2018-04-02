@@ -1,43 +1,31 @@
 var express = require('express');
 var path = require('path');
-var pg = require('pg');
+var pgClient = require('./connection.js');
 var nodemailer = require("nodemailer");
 
 var router = express.Router();
-
-var localConn = {
-	user: process.argv.POSTGRES_USER,
-	password: process.argv.POSTGRES_PASSWORD,
-	database: 'react_portfolio',
-	host: 'localhost',
-	port: 5432
-};
-
-let dbUrl = process.env.DATABASE_URL || localConn;
-var pgClient = new pg.Client(dbUrl);
-pgClient.connect();
 
 router.get('/', function(req,res){
 	res.sendFile(path.join(__dirname, '../../client/public/index.html'));
 });
 
-router.post('/api/message', (req,res) => {
-	if(req.body.name !== '' && req.body.message !== ''){
-		pgClient.query('INSERT INTO blog (name, message) VALUES ($1, $2)', [req.body.name, req.body.message], (error, queryRes) => {
-			pgClient.query('SELECT * FROM blog', (error, queryRes) => {
-				res.json(queryRes.rows);
-			});
-		});
-	} else if (req.body.name === '' && req.body.message !== '') {
-		pgClient.query('INSERT INTO blog (name, message) VALUES ($1, $2)', ['Guest', req.body.message], (error, queryRes) => {
-			pgClient.query('SELECT * FROM blog', (error, queryRes) => {
-				res.json(queryRes.rows);
-			});
-		});
-	} else if ((req.body.name !== '' && req.body.message === '') || (req.body.name === '' && req.body.message === '')) {
-		res.json("null_message")
-	}
-});
+// router.post('/api/message', (req,res) => {
+// 	if(req.body.name !== '' && req.body.message !== ''){
+// 		pgClient.query('INSERT INTO blog (name, message) VALUES ($1, $2)', [req.body.name, req.body.message], (error, queryRes) => {
+// 			pgClient.query('SELECT * FROM blog', (error, queryRes) => {
+// 				res.json(queryRes.rows);
+// 			});
+// 		});
+// 	} else if (req.body.name === '' && req.body.message !== '') {
+// 		pgClient.query('INSERT INTO blog (name, message) VALUES ($1, $2)', ['Guest', req.body.message], (error, queryRes) => {
+// 			pgClient.query('SELECT * FROM blog', (error, queryRes) => {
+// 				res.json(queryRes.rows);
+// 			});
+// 		});
+// 	} else if ((req.body.name !== '' && req.body.message === '') || (req.body.name === '' && req.body.message === '')) {
+// 		res.json("null_message")
+// 	}
+// });
 
 router.get('/api/messages', (req,res) => {
 	pgClient.query('SELECT * FROM blog', (error, queryRes) => {
