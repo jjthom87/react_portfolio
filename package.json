@@ -4,7 +4,7 @@
   "description": "",
   "main": "public/index.html",
   "scripts": {
-    "start": "nodemon server/server.js"
+    "start": "node server/server.js"
   },
   "dependencies": {
     "express": "^4.14.0",
