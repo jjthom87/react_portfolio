@@ -67,7 +67,8 @@ export default class BlogPage extends Component {
     componentDidMount(){
       let stuff;
       let that = this;
-      var socket = io.connect('https://dry-beach-37904.herokuapp.com');
+      let url = process.env.PORT ? 'https://dry-beach-37904.herokuapp.com' : 'http://localhost:3000';
+      var socket = io.connect(url);
       socket.on('messages', function (data) {
           that.setState({
             messages: data
