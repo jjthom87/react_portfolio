@@ -9,23 +9,23 @@ router.get('/', function(req,res){
 	res.sendFile(path.join(__dirname, '../../client/public/index.html'));
 });
 
-// router.post('/api/message', (req,res) => {
-// 	if(req.body.name !== '' && req.body.message !== ''){
-// 		pgClient.query('INSERT INTO blog (name, message) VALUES ($1, $2)', [req.body.name, req.body.message], (error, queryRes) => {
-// 			pgClient.query('SELECT * FROM blog', (error, queryRes) => {
-// 				res.json(queryRes.rows);
-// 			});
-// 		});
-// 	} else if (req.body.name === '' && req.body.message !== '') {
-// 		pgClient.query('INSERT INTO blog (name, message) VALUES ($1, $2)', ['Guest', req.body.message], (error, queryRes) => {
-// 			pgClient.query('SELECT * FROM blog', (error, queryRes) => {
-// 				res.json(queryRes.rows);
-// 			});
-// 		});
-// 	} else if ((req.body.name !== '' && req.body.message === '') || (req.body.name === '' && req.body.message === '')) {
-// 		res.json("null_message")
-// 	}
-// });
+router.post('/api/message', (req,res) => {
+	if(req.body.name !== '' && req.body.message !== ''){
+		pgClient.query('INSERT INTO blog (name, message) VALUES ($1, $2)', [req.body.name, req.body.message], (error, queryRes) => {
+			pgClient.query('SELECT * FROM blog', (error, queryRes) => {
+				res.json(queryRes.rows);
+			});
+		});
+	} else if (req.body.name === '' && req.body.message !== '') {
+		pgClient.query('INSERT INTO blog (name, message) VALUES ($1, $2)', ['Guest', req.body.message], (error, queryRes) => {
+			pgClient.query('SELECT * FROM blog', (error, queryRes) => {
+				res.json(queryRes.rows);
+			});
+		});
+	} else if ((req.body.name !== '' && req.body.message === '') || (req.body.name === '' && req.body.message === '')) {
+		res.json("null_message")
+	}
+});
 
 router.get('/api/messages', (req,res) => {
 	pgClient.query('SELECT * FROM blog', (error, queryRes) => {

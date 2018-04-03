@@ -20,7 +20,7 @@ export default class AboutMe extends Component {
 	 				href="https://www.linkedin.com/in/jared-thomas-83a702158/"
 	 				style={AboutMeStyles.linked_in}
 	 			>
-	 				<i style={{fontSize: '24px'}} class="fab fa-linkedin-in"></i>
+	 				<i style={{fontSize: '24px'}} className="fab fa-linkedin-in"></i>
 	        	</a>
 	        </div>
 	        <div className="row">

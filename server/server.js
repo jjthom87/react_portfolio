@@ -24,26 +24,30 @@ io.on('connection', function (socket) {
   // socket.on('my other event', function (data) {
   //   console.log(data);
   // });
+  	console.log("Connected to Socket")
+	// app.post('/api/message', (req,res) => {
+	// 	console.log(req.body)
+	// 	if(req.body.name !== '' && req.body.message !== ''){
+	// 		pgClient.query('INSERT INTO blog (name, message) VALUES ($1, $2)', [req.body.name, req.body.message], (error, queryRes) => {
+	// 			pgClient.query('SELECT * FROM blog', (error, queryRes) => {
+	// 				socket.emit('messages', queryRes.rows);
+	// 			});
+	// 		});
+	// 	} else if (req.body.name === '' && req.body.message !== '') {
+	// 		pgClient.query('INSERT INTO blog (name, message) VALUES ($1, $2)', ['Guest', req.body.message], (error, queryRes) => {
+	// 			pgClient.query('SELECT * FROM blog', (error, queryRes) => {
+	// 				socket.emit('messages', queryRes.rows);
+	// 			});
+	// 		});
+	// 	} else if ((req.body.name !== '' && req.body.message === '') || (req.body.name === '' && req.body.message === '')) {
+	// 		res.json("null_message")
+	// 	}
+	// });
+	socket.on('addedMessage', function(data){
+		io.emit('newMessage', data)
+	})
 
-	app.post('/api/message', (req,res) => {
-		if(req.body.name !== '' && req.body.message !== ''){
-			pgClient.query('INSERT INTO blog (name, message) VALUES ($1, $2)', [req.body.name, req.body.message], (error, queryRes) => {
-				pgClient.query('SELECT * FROM blog', (error, queryRes) => {
-					socket.emit('messages', queryRes.rows);
-				});
-			});
-		} else if (req.body.name === '' && req.body.message !== '') {
-			pgClient.query('INSERT INTO blog (name, message) VALUES ($1, $2)', ['Guest', req.body.message], (error, queryRes) => {
-				pgClient.query('SELECT * FROM blog', (error, queryRes) => {
-					socket.emit('messages', queryRes.rows);
-				});
-			});
-		} else if ((req.body.name !== '' && req.body.message === '') || (req.body.name === '' && req.body.message === '')) {
-			res.json("null_message")
-		}
-	});
-
-	pgClient.query('SELECT * FROM blog', (error, queryRes) => {
+	pgClient.query('SELECT * FROM blog ORDER BY blog DESC', (error, queryRes) => {
 		socket.emit('messages', queryRes.rows);
 	});
 });

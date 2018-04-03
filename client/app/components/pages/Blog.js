@@ -29,9 +29,9 @@ export default class BlogPage extends Component {
           },
       }).then((response) => response.json())
       .then((results) => {
-          this.setState({
-              messages: results
-          });
+          // this.setState({
+          //     messages: results
+          // });
           this.refs.nameInput.value = "";
   		    this.refs.messageInput.value = "";
           this.setState({
@@ -39,6 +39,18 @@ export default class BlogPage extends Component {
             messageValid: false
           })
       });
+
+      let stuff;
+      let that = this;
+      let url = window.location.href.indexOf('localhost') > -1 ? 'http://localhost:3000' : 'https://dry-beach-37904.herokuapp.com';
+      var socket = io.connect(url);
+      // socket.on('addedMessage', function (data) {
+      //     that.state.messages.push(newMessage)
+      //     that.setState({
+      //       messages: that.state.messages
+      //     })
+      // });
+      socket.emit('addedMessage', newMessage)
     }
     onNameChange(){
         const nameInput = this.refs.nameInput.value;
@@ -67,13 +79,19 @@ export default class BlogPage extends Component {
     componentDidMount(){
       let stuff;
       let that = this;
-      //let url = process.env.PORT ? 'https://dry-beach-37904.herokuapp.com' : 'http://localhost:3000';
-      var socket = io.connect('https://dry-beach-37904.herokuapp.com');
+      let url = window.location.href.indexOf('localhost') > -1 ? 'http://localhost:3000' : 'https://dry-beach-37904.herokuapp.com';
+      var socket = io.connect(url);
       socket.on('messages', function (data) {
           that.setState({
             messages: data
           })
       });
+      socket.on('newMessage', function(data){
+        that.state.messages.unshift(data)
+        that.setState({
+          messages: that.state.messages
+        })
+      })
     }
     componentWillMount(){
   		// fetch('/api/messages', {
@@ -90,6 +108,7 @@ export default class BlogPage extends Component {
     }
   	render() {
   		const {messages, updatedMessages} = this.state;
+      //console.log(messages)
   		const appendMessages = () => {
   			if(messages.length > 0){
 				return messages.map((message, index) => {
